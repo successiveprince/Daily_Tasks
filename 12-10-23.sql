@@ -51,3 +51,5 @@ select CONCAT('Prince' , ' Kumar')
 
 select CONCAT_WS('_' , 'Prince' , 'Kumar')
 
+
+select ASCII('Prince')
