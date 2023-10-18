@@ -139,13 +139,59 @@ select e.firstName , e.lastName from tblEmployees e INNER JOIN tblDepartment d O
 	INNER JOIN tblProducts as p ON p.productID = o.productID group by(orderId)
 
 --Q11
-select sum(unitPrice * quantity)as TotalPrice  from tblOrderDetails as o
+select TOP 1 custId ,sum(unitPrice * quantity)as TotalPrice  from tblOrderDetails as o
 INNER JOIN tblProducts as p ON p.productID = o.productID INNER JOIN tblOrders od 
 ON od.orderId = o.orderId
-
+Group By custId
+Order By TotalPrice DESC
 
 --Q12
+select TOP 1 custId , max(od.quantity) as TotalQuantity
+from tblOrders o INNER JOIN tblOrderDetails od ON o.orderId = od.orderId 
+Group by custId
+Order By TotalQuantity DESC
+
+
+--Q13
+select  d.deptName from tblEmployees e
+INNER JOIN tblDepartment d ON e.deptId = d.deptId
+group by d.deptName having count(e.deptId)>1
+
+
+--Q14
+select d.deptName , avg(p.unitPrice) as AvgPrice 
+from tblDepartment d 
+INNER JOIN tblEmployees e ON  e.deptId = d.deptId
+INNER JOIN tblOrders o ON e.epmId = o.custId
+INNER JOIN tblOrderDetails od ON od.orderId = o.orderId
+INNER JOIN tblProducts p ON p.productID = od.productID 
+group by d.deptName;
+
+
+--Q15
+select Top 1 orderId , sum(unitPrice * quantity)as TotalPrice  from tblOrderDetails as o
+	INNER JOIN tblProducts as p ON p.productID = o.productID group by(orderId) Order By TotalPrice DESC
+
+--Q16
+select * from tblEmployees where epmId NOT IN (select custId from tblOrders)
+
+--Q17
+select p.productName ,sum(unitPrice * quantity)as TotalRevenue  from tblOrderDetails as o
+INNER JOIN tblProducts as p ON p.productID = o.productID
+Group By p.productName
+
+
+--Q18
+select p.productName from tblProducts p INNER JOIN
+tblOrderDetails od ON p.productID = od.productID
+group by p.productName having count(od.productID) > 1
+
+
+--Q19
 
 
 
-
+--Q20
+select TOP 1 p.productName ,sum(unitPrice * quantity)as TotalRevenue  from tblOrderDetails as o
+INNER JOIN tblProducts as p ON p.productID = o.productID
+Group By p.productName order by TotalRevenue DESC
