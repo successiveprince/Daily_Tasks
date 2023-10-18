@@ -179,7 +179,7 @@ select * from tblEmployees where epmId NOT IN (select custId from tblOrders)
 select p.productName ,sum(unitPrice * quantity)as TotalRevenue  from tblOrderDetails as o
 INNER JOIN tblProducts as p ON p.productID = o.productID
 Group By p.productName
-
+ 
 
 --Q18
 select p.productName from tblProducts p INNER JOIN
@@ -188,7 +188,10 @@ group by p.productName having count(od.productID) > 1
 
 
 --Q19
-
+SELECT e.epmId, e.FirstName, e.LastName
+FROM tblEmployees e
+INNER JOIN tblOrders o ON e.epmId = o.custId
+WHERE DATEPART(WEEKDAY,o.OrderDate) IN (1,7);
 
 
 --Q20
