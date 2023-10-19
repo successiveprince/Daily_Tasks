@@ -40,7 +40,9 @@ group by s.studentID,s.firstName,s.lastName
 having count(e.studentID) > 1
 
 --Q2
-
+select distinct C.CourseName from tblCourses as c
+inner join tblEnrollments as e on e.CourseId = c.CourseId
+where e.enrollDate < '2023-10-19 15:55:02.383'                           
 
 
 
@@ -86,13 +88,16 @@ WHERE s.FirstName = d.deptName;
 
 
 --Q7
-select  distinct d.deptName,count(e.CourseID) as Student_count
-from tblEnrollments as e
-inner join tblCourses as c on e.courseID=c.courseID
-inner join tblDepartments as d on d.deptID= c.deptID
-group by d.deptName
-order by Student_count 
-
+SELECT TOP 1 d.deptName, AVG(Student_count) AS Avg_Students_Per_Course
+FROM (
+    SELECT c.deptID, COUNT(e.CourseID) AS Student_count
+    FROM tblEnrollments AS e
+    INNER JOIN tblCourses AS c ON e.CourseID = c.courseID
+    GROUP BY c.deptID, e.CourseID
+) AS subquery
+INNER JOIN tblDepartments AS d ON d.deptID = subquery.deptID
+GROUP BY d.deptName
+ORDER BY Avg_Students_Per_Course DESC
 
 --Q8
 SELECT s.FirstName, s.LastName
@@ -111,3 +116,18 @@ INNER JOIN tblCourses c ON d.deptID = c.deptID
 INNER JOIN tblEnrollments e ON c.CourseID = e.CourseID
 GROUP BY d.deptName, c.CourseName
 order by MostRecentEnrollmentDate
+
+
+
+--Q10
+SELECT  d.deptName, AVG(Student_count) AS Avg_Students_Per_Course
+FROM (
+    SELECT c.deptID, COUNT(e.CourseID) AS Student_count
+    FROM tblEnrollments AS e
+    INNER JOIN tblCourses AS c ON e.CourseID = c.courseID
+    GROUP BY c.deptID, e.CourseID
+) AS subquery
+INNER JOIN tblDepartments AS d ON d.deptID = subquery.deptID
+where d.deptName='Engineering'
+GROUP BY d.deptName,d.deptID
+ORDER BY Avg_Students_Per_Course DESC
