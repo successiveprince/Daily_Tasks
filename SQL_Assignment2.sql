@@ -110,3 +110,4 @@ FROM tblDepartments d
 INNER JOIN tblCourses c ON d.deptID = c.deptID
 INNER JOIN tblEnrollments e ON c.CourseID = e.CourseID
 GROUP BY d.deptName, c.CourseName
+order by MostRecentEnrollmentDate
