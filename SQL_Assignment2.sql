@@ -86,13 +86,17 @@ WHERE s.FirstName = d.deptName;
 
 
 --Q7
-
+select  distinct d.deptName,count(e.CourseID) as Student_count
+from tblEnrollments as e
+inner join tblCourses as c on e.courseID=c.courseID
+inner join tblDepartments as d on d.deptID= c.deptID
+group by d.deptName
+order by Student_count 
 
 
 --Q8
 SELECT s.FirstName, s.LastName
-FROM tblStudents s
-WHERE s.StudentID
+FROM tblStudents s WHERE s.StudentID
 NOT IN 
 (SELECT e.StudentID FROM tblEnrollments e 
 INNER JOIN tblCourses c ON e.CourseID = c.CourseID 
@@ -101,10 +105,8 @@ WHERE d.deptName = 'computer');
 
 
 --Q9
-SELECT  top 1 d.deptName, c.CourseName, MAX(e.enrollDate) AS MostRecentEnrollmentDate
+SELECT   d.deptName, c.CourseName, MAX(e.enrollDate) AS MostRecentEnrollmentDate
 FROM tblDepartments d
 INNER JOIN tblCourses c ON d.deptID = c.deptID
 INNER JOIN tblEnrollments e ON c.CourseID = e.CourseID
-GROUP BY d.deptName, c.CourseName;
-
-
+GROUP BY d.deptName, c.CourseName
