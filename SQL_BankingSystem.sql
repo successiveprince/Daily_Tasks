@@ -77,6 +77,12 @@ insert into tblLoan values ('C1' , 'B1' , 'House' , 2000000)
 insert into tblLoan values ('C2' , 'B2' , 'Car' , 1500000)
 insert into tblLoan values ('C3' , 'B3' , 'Business' , 4000000)
 
+create table tbl_loanType(
+	loanTypeId INT Primary Key,
+	loanType VARCHAR(50),
+	rateOfInterest DECIMAL(10,2)
+)
+
 select * from tblAccounts
 select * from tblBranchs
 select * from tblCustomer
